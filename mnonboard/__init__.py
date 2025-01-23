@@ -18,7 +18,7 @@ LOG_DIR = '/var/log/mnlite/'
 LOG_NAME = 'mnonboard-%s.log' % (FN_DATE)
 LOG_LOC = os.path.join(LOG_DIR, LOG_NAME)
 
-HARVEST_LOG_NAME = '-crawl-%s.log' % YM_DATE
+HARVEST_LOG_NAME = '-crawl.log'
 
 def start_logging():
     """

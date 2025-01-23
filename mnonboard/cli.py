@@ -62,6 +62,8 @@ def run(cfg):
                              name=end_node_subj)
     # restart the mnlite process to pick up the new node.json (step 9)
     utils.restart_mnlite()
+    # write the sync script (for step 10)
+    utils.write_sync_script(loc, end_node_subj)
     # run scrapy to harvest metadata (step 10)
     if not cfg['local']:
         utils.harvest_data(loc, end_node_subj)

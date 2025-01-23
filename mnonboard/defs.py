@@ -66,6 +66,26 @@ APPROVE_SCRIPT_LOC = '/usr/local/bin/dataone-approve-node'
 The location of the Hazelcast node approval script.
 """
 
+SYNC_CONTENT_SCRIPT = """
+#!/bin/bash
+
+NODE="%s"
+
+HOME_DIR="/home/mnlite"
+MNLITE_DIR="${HOME_DIR}/WORK/mnlite"
+NODE_DIR="${MNLITE_DIR}/instance/nodes/${NODE}"
+
+ENV_DIR="${HOME_DIR}/.virtualenvs/mnlite"
+LOG_DIR="/var/log/mnlite"
+
+cd "${MNLITE_DIR}"
+source "${ENV_DIR}/bin/activate"
+LOG_FILE="${LOG_DIR}/${NODE}-crawl.log"
+logger "Start crawl on: ${NODE} logfile: ${LOG_FILE}"
+scrapy crawl --logfile=${LOG_FILE} JsonldSpider -s STORE_PATH=${NODE_DIR}
+logger "End crawl on ${NODE}"
+"""
+
 HELP_TEXT = """DataONE member node onboard script
 %s NCEAS/Ian Nesbitt
 
