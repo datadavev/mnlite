@@ -43,6 +43,8 @@ def run(cfg):
     loc = utils.node_path(nodedir=end_node_subj)
     # initialize a repository there (step 5)
     utils.init_repo(loc)
+    # write a default settings file in the repo directory
+    utils.write_settings(loc)
     names = {}
     for f in ('default_owner', 'default_submitter', 'contact_subject'):
         # add a subject for owner and submitter (may not be necessary if they exist already)

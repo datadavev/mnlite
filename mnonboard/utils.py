@@ -8,7 +8,7 @@ import xmltodict
 from pathlib import Path
 from logging import getLogger
 
-from mnonboard.defs import SCHEDULES, NAMES_DICT, USER_NAME
+from mnonboard.defs import SCHEDULES, NAMES_DICT, USER_NAME, DEFAULT_SETTINGS
 from mnonboard import NODE_PATH_REL, CUR_PATH_ABS, LOG_DIR, HARVEST_LOG_NAME, HM_DATE, L
 from mnonboard.info_chx import enter_schedule
 
@@ -102,6 +102,33 @@ def init_repo(loc: str):
                         'init'], check=True)
     except Exception as e:
         L.error('opersist init command failed (node folder: %s): %s' % (loc, e))
+        exit(1)
+
+def write_settings(loc: str, settings: dict=DEFAULT_SETTINGS):
+    """
+    Write settings to a file.
+
+    :param str loc: Location of the settings file to be written
+    :param dict settings: Dictionary of settings to be written (default: DEFAULT_SETTINGS)
+    """
+    L.info('Writing settings to %s' % loc)
+    sf = Path(loc/'settings.json')
+    try:
+        with open(str(sf), 'x') as f:
+            json.dump(settings, f, indent=4)
+        L.info('Settings written to %s' % sf)
+    except FileExistsError as e:
+        L.warning('File exists - %s' % e)
+        try:
+            sf = Path(loc/'settings-default.json')
+            with open(str(sf), 'w') as f:
+                json.dump(settings, f, indent=4)
+            L.info('Default settings written to %s' % sf)
+        except Exception as e:
+            L.error('Error writing default settings to %s: %s' % (sf, e))
+            exit(1)
+    except Exception as e:
+        L.error('Error writing settings to %s: %s' % (sf, e))
         exit(1)
 
 def parse_name(fullname: str):

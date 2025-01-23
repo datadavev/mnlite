@@ -123,6 +123,11 @@ FILL_FIELDS = [
 
 SITEMAP_URLS = []
 
+DEFAULT_SETTINGS = {
+    "AUTOTHROTTLE_TARGET_CONCURRENCY": 1.5,
+    "LOG_LEVEL": "DEBUG"
+}
+
 SCHEDULES = {
     # monthly on the 1st at 00:30
     0: {
